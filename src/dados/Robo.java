@@ -1,6 +1,6 @@
 package dados;
 
-public abstract class Robo {
+public abstract class Robo implements Comparable<Robo> {
 	private int id;
 	private String modelo;
 	private double valorDiario;
@@ -25,4 +25,6 @@ public abstract class Robo {
 
 	public abstract double calculaLocacao(int dias);
 
+	@Override
+	public abstract int compareTo(Robo o);
 }

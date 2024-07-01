@@ -17,4 +17,9 @@ public class Empresarial extends Cliente {
 	public double calculaDesconto(int quantidadeRobos) {
 		return 0;
 	}
+
+	@Override
+	public int compareTo(Cliente o) {
+		return Integer.compare(this.getCodigo(), o.getCodigo());
+	}
 }

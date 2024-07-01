@@ -17,4 +17,9 @@ public class Domestico extends Robo {
 	public double calculaLocacao(int dias) {
 		return 0;
 	}
+
+	@Override
+	public int compareTo(Robo o) {
+		return Integer.compare(this.getId(), o.getId());
+	}
 }
