@@ -1,11 +1,10 @@
-import GUI.CadastrarCliente;
-import GUI.CadastrarRobo;
-import aplicacao.ACMERobots ;
+import aplicacao.ACMERobots;
+import dados.Cliente;
 
 public class Main {
 
 	public static void main(String[] args) {
-		new CadastrarRobo();
+		new ACMERobots();
 
 	}
 

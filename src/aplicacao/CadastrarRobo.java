@@ -1,4 +1,4 @@
-package GUI;
+package aplicacao;
 
 import dados.*;
 
@@ -63,7 +63,7 @@ public class CadastrarRobo implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource()==confirmarButton){
-            cadastarRobo();
+            cadastrarRobo();
         }
         else if (e.getSource()==limparButton){
             textID.setText("");
@@ -98,7 +98,7 @@ public class CadastrarRobo implements ActionListener {
             System.exit(0);
         }
     }
-    private void cadastarRobo() {
+    private void cadastrarRobo() {
         try {
             int id = Integer.parseInt(textID.getText());
             String modelo = textModelo.getText();

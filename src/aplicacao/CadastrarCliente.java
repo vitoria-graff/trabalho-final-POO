@@ -1,4 +1,4 @@
-package GUI;
+package aplicacao;
 
 import dados.Cliente;
 import dados.Empresarial;
@@ -23,7 +23,9 @@ public class CadastrarCliente implements ActionListener {
     private JTextArea textArea1;
     private JPanel panel;
     private ButtonGroup tipo;
-    ArrayList<Cliente> clientes = new ArrayList<>();
+    private ArrayList<Cliente> clientes;
+     private Cliente cliente;
+     private ACMERobots acmeRobots;
 
     public CadastrarCliente(){
         try {
@@ -36,6 +38,9 @@ public class CadastrarCliente implements ActionListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        acmeRobots = new ACMERobots();
+        clientes = new ArrayList<>();
 
         confirmarButton.addActionListener(this);
         mostrarDadosButton.addActionListener(this);
@@ -87,9 +92,11 @@ public class CadastrarCliente implements ActionListener {
                 }
                 textArea1.append("\n");
             }
-        }
-        else if (e.getSource()==finalizarButton){
-            System.exit(0);
+        } else if (e.getSource()==finalizarButton){
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(panel);
+            frame.dispose();
+            acmeRobots.mostrarTelaPrincipal();
+
         }
     }
     private void cadastarCliente(){
@@ -139,5 +146,6 @@ public class CadastrarCliente implements ActionListener {
         }
         return false;
     }
+
 }
 

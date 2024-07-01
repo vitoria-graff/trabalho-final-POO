@@ -1,4 +1,4 @@
-package GUI;
+package aplicacao;
 
 public class CadastrarLocacao {
 }
