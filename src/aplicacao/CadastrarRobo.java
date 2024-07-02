@@ -1,6 +1,7 @@
 package aplicacao;
 
 import dados.*;
+import dados.colecoes.Robos;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -22,19 +23,13 @@ public class CadastrarRobo implements ActionListener {
     private JRadioButton agricolaRadioButton;
     private JTextField textDiaria;
     private ButtonGroup tipo;
-    ArrayList<Robo> robos = new ArrayList<>();
+    private Robos robos;
+    private ACMERobots acmeRobots;
 
-    public CadastrarRobo(){
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public CadastrarRobo( ACMERobots acmeRobots){
+        super();
+        this.acmeRobots=acmeRobots;
+        this.robos=acmeRobots.getRobos();
 
         confirmarButton.addActionListener(this);
         mostrarDadosButton.addActionListener(this);
@@ -45,16 +40,6 @@ public class CadastrarRobo implements ActionListener {
         tipo.add(agricolaRadioButton);
         tipo.add(industrialRadioButton);
         tipo.add(domesticoRadioButton);
-
-        JFrame frame = new JFrame();
-        frame.setContentPane(getPanel());
-        frame.setSize(600,400);
-        frame.setTitle("ACMERescue");
-        ImageIcon imageIcon = new ImageIcon("icon.png");
-        frame.setLocationRelativeTo(null);
-        frame.setIconImage(imageIcon.getImage());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
     }
     public JPanel getPanel() {
         return panel;
@@ -71,9 +56,12 @@ public class CadastrarRobo implements ActionListener {
             textArea1.setText("");
         }
         else if (e.getSource()==mostrarDadosButton){
-            Collections.sort(robos);
+            if (robos.getRobos().isEmpty()) {
+                textArea1.append("Nenhum cliente cadastrado.\n");
+            } else {
+            Collections.sort(robos.getRobos());
             textArea1.setText("");
-            for (Robo robo:robos) {
+            for (Robo robo:robos.getRobos()) {
                 textArea1.append("ID: " + robo.getId() + "\n");
                 textArea1.append("Nome: " + robo.getModelo() + "\n");
                 textArea1.append("Diária: " + robo.getValorDiario() + "\n");
@@ -91,57 +79,54 @@ public class CadastrarRobo implements ActionListener {
                     textArea1.append("Área: " + agricola.getArea() + "\n");
                     textArea1.append("Uso: " + agricola.getUso() + "\n");
                 }
-                textArea1.append("\n");
+                textArea1.append("--------------------------" + "\n");
             }
-        }
+        }}
         else if (e.getSource()==finalizarButton){
-            System.exit(0);
+            acmeRobots.setContentPane(acmeRobots.getPanel());
+            acmeRobots.setSize(800, 600);
         }
     }
-    private void cadastrarRobo() {
+
+    private void cadastrarRobo(){
+        if(textID.getText().trim().isEmpty() || textModelo.getText().trim().isEmpty() || textDiaria.getText().trim().isEmpty() || !agricolaRadioButton.isSelected() && !industrialRadioButton.isSelected()&& !domesticoRadioButton.isSelected()){
+            textArea1.append("Erro! Todos os campos devem estar preenchidos.\n");
+            return;
+        }
         try {
-            int id = Integer.parseInt(textID.getText());
-            String modelo = textModelo.getText();
-            double diaria = Double.parseDouble(textDiaria.getText());
-
-            if (modelo.isEmpty() || (!agricolaRadioButton.isSelected() && !industrialRadioButton.isSelected() && !domesticoRadioButton.isSelected())) {
-                throw new IllegalArgumentException("Erro! Todos os campos devem estar preenchidos.");
-            }
-
+            int id = Integer.parseInt(textID.getText().trim());
+            String modelo = textModelo.getText().trim();
+            double diaria = Double.parseDouble(textDiaria.getText().trim());
             if (existeID(id)) {
-                throw new IllegalArgumentException("Erro! Já existe um robô com esse ID.");
-            }
-
-            if (industrialRadioButton.isSelected()) {
-                String setor = JOptionPane.showInputDialog(panel, "Digite o Setor:");
-                if (setor == null || setor.isEmpty()) {
-                    throw new IllegalArgumentException("Erro! Setor não pode estar vazio.");
-                }
-                robos.add(new Industrial(id, modelo, diaria, setor));
-            } else if (domesticoRadioButton.isSelected()) {
-                try {
-                    int nivel = Integer.parseInt(JOptionPane.showInputDialog(panel, "Digite o nível:"));
-                    robos.add(new Domestico(id, modelo, diaria, nivel));
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException("Erro! Nível deve ser um número inteiro.");
-                }
-            } else if (agricolaRadioButton.isSelected()) {
-                try {
-                    double area = Double.parseDouble(JOptionPane.showInputDialog(panel, "Digite a área:"));
-                    String uso = JOptionPane.showInputDialog(panel, "Digite o uso:");
-                    robos.add(new Agricola(id, modelo, diaria, area, uso));
-                } catch (NumberFormatException e) {
-                    throw new IllegalArgumentException("Erro! Área deve ser um número.");
-                }
-            }
-
-            Collections.sort(robos);
+                textArea1.append("Erro! Já existe um robô com esse ID.\n");
+            } else {
+                if (industrialRadioButton.isSelected()) {
+                    String setor = JOptionPane.showInputDialog(panel, "Digite o Setor:");
+                    if (setor == null || setor.isEmpty()) {
+                        throw new IllegalArgumentException("Erro! Setor não pode estar vazio.");
+                    }
+                    robos.getRobos().add(new Industrial(id, modelo, diaria, setor));
+                } else if (domesticoRadioButton.isSelected()) {
+                    try {
+                        int nivel = Integer.parseInt(JOptionPane.showInputDialog(panel, "Digite o nível:"));
+                        robos.getRobos().add(new Domestico(id, modelo, diaria, nivel));
+                    } catch (NumberFormatException e) {
+                        throw new IllegalArgumentException("Erro! Nível deve ser um número inteiro.");
+                    }
+                } else if (agricolaRadioButton.isSelected()) {
+                    try {
+                        double area = Double.parseDouble(JOptionPane.showInputDialog(panel, "Digite a área:"));
+                        String uso = JOptionPane.showInputDialog(panel, "Digite o uso:");
+                        robos.getRobos().add(new Agricola(id, modelo, diaria, area, uso));
+                    } catch (NumberFormatException e) {
+                        throw new IllegalArgumentException("Erro! Área deve ser um número.");
+                    }
+                }}
             textArea1.append("Robô cadastrado com sucesso.\n");
 
             textID.setText("");
             textModelo.setText("");
             textDiaria.setText("");
-
         } catch (NumberFormatException e) {
             textArea1.append("Erro! ID e Diária devem ser números válidos.\n");
         } catch (IllegalArgumentException e) {
@@ -153,7 +138,7 @@ public class CadastrarRobo implements ActionListener {
     }
 
     private boolean existeID(int id){
-        for(Robo robo: robos){
+        for(Robo robo: robos.getRobos()){
             if (robo.getId()== id){
                 return true;
             }

@@ -1,12 +1,15 @@
 package aplicacao;
 
+import dados.colecoes.Clientela;
+import dados.colecoes.Locacoes;
+import dados.colecoes.Robos;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ACMERobots implements ActionListener {
+public class ACMERobots extends JFrame implements ActionListener {
     private JPanel panel1;
-    private JButton button1;
     private JButton cadastrarRoboButton;
     private JButton button3;
     private JButton button4;
@@ -14,52 +17,99 @@ public class ACMERobots implements ActionListener {
     private JButton cadastrarLocacaoButton;
     private JButton button7;
     private JPanel panel;
+    private JButton finalizarButton;
+    private ImageIcon imageIcon;
+    private Clientela clientela;
+    private Locacoes locacoes;
+    private Robos robos;
+    private CadastrarCliente cadastrarCliente;
+    private CadastrarRobo cadastrarRobo;
+    private CadastrarLocacao cadastrarLocacao;
+    private escolhaCliente escolhaCliente;
 
-    public ACMERobots(){
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+    public ACMERobots(Clientela clientela, Locacoes locacoes, Robos robos){
+        super();
+        imageIcon = new ImageIcon("icon.png");
+        this.robos = robos;
+        this.locacoes = locacoes;
+        this.clientela = clientela;
+        this.cadastrarRobo = new CadastrarRobo(this);
+        this.cadastrarCliente = new CadastrarCliente(this);
+        this.cadastrarLocacao = new CadastrarLocacao(this, escolhaCliente);
+        this.escolhaCliente = new escolhaCliente(this);
+        this.setContentPane(panel);
+        this.setSize(800, 600);
+        this.setTitle("ACMERobots");
+        this.setLocationRelativeTo(null);
+        this.setIconImage(imageIcon.getImage());
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        this.setVisible(true);
+
+        cadastrarRoboButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mudarPainel(1);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        cadastrarClienteButton.addActionListener(this);
-        cadastrarRoboButton.addActionListener(this);
-        cadastrarLocacaoButton.addActionListener(this);
-
-        JFrame frame = new JFrame();
-        frame.setContentPane(getPanel());
-        frame.setSize(600,400);
-        frame.setTitle("ACMERescue");
-        ImageIcon imageIcon = new ImageIcon("icon.png");
-        frame.setLocationRelativeTo(null);
-        frame.setIconImage(imageIcon.getImage());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        });
+        cadastrarClienteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mudarPainel(2);
+            }
+        });
+        cadastrarLocacaoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mudarPainel(3);
+            }
+        });
+        finalizarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
     }
+
+    public void mudarPainel(int painel) {
+        switch (painel) {
+            case 1:
+                this.setContentPane(cadastrarRobo.getPanel());
+                this.setSize(800, 400);
+                break;
+
+            case 2:
+                this.setContentPane(cadastrarCliente.getPanel());
+                this.setSize(800, 400);
+                break;
+
+            case 3:
+                this.setContentPane(escolhaCliente.getPanel());
+                this.setSize(800, 400);
+                break;
+
+
+
+    }}
+
     public JPanel getPanel() {
         return panel;
     }
 
+    public Clientela getClientela() {
+        return clientela;
+    }
+
+    public Robos getRobos() {
+        return robos;
+    }
+
+    public Locacoes getLocacoes() {
+        return locacoes;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource()==cadastrarClienteButton){
-            CadastrarCliente cadastrarCliente =new CadastrarCliente();
-            cadastrarCliente.getPanel();
-        }
-        else if (e.getSource()==cadastrarRoboButton){
-            CadastrarRobo cadastrarRobo = new CadastrarRobo();
-            cadastrarRobo.getPanel();
-        } else if (e.getSource()==cadastrarLocacaoButton){
-            escolhaCliente escolhaCliente=new escolhaCliente();
-            escolhaCliente.getPanel();
-        }
-    }
-    public void mostrarTelaPrincipal() {
-        JFrame principalFrame = (JFrame) SwingUtilities.getWindowAncestor(panel);
-        principalFrame.setVisible(true);
+
     }
 }
