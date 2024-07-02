@@ -77,7 +77,8 @@ public class CadastrarCliente implements ActionListener {
                 if (individualRadioButton.isSelected()) {
                     String cpf = JOptionPane.showInputDialog(panel, "Digite o CPF do cliente:");
                     if (cpf != null && !cpf.isEmpty()) {
-                        clientela.getClientes().add(new Individual(codigo, nome, cpf));
+                        Individual clienteIndividual = new Individual(codigo, nome, cpf);
+                        clientela.cadastrarCliente(clienteIndividual);
                         textArea1.append("Cliente cadastrado com sucesso.\n");
                     } else {
                         textArea1.append("Erro! CPF não pode estar vazio.\n");
@@ -85,12 +86,14 @@ public class CadastrarCliente implements ActionListener {
                 } else if (empresarialRadioButton.isSelected()) {
                     try {
                         int ano = Integer.parseInt(JOptionPane.showInputDialog(panel, "Digite o ano de fundação da empresa:"));
-                        clientela.getClientes().add(new Empresarial(codigo, nome, ano));
+                        Empresarial clienteEmpresarial = new Empresarial(codigo, nome, ano);
+                        clientela.cadastrarCliente(clienteEmpresarial);
                         textArea1.append("Cliente cadastrado com sucesso.\n");
                     } catch (NumberFormatException e) {
                         textArea1.append("Erro! Ano deve ser um número inteiro.\n");
                     }
                 }
+                acmeRobots.getEscolhaCliente().atualizarListaClientes();
             }
             textCodigo.setText("");
             textNome.setText("");

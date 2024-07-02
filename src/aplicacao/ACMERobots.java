@@ -108,6 +108,10 @@ public class ACMERobots extends JFrame implements ActionListener {
         return locacoes;
     }
 
+    public aplicacao.escolhaCliente getEscolhaCliente() {
+        return escolhaCliente;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 

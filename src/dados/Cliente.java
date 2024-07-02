@@ -1,16 +1,21 @@
 package dados;
 
+import dados.colecoes.Locacoes;
+
 import java.util.ArrayList;
 
 public abstract class Cliente implements Comparable<Cliente> {
 	private int codigo;
 	private String nome;
-	private ArrayList<Cliente>clientes;
-	public Cliente(int codigo, String nome){
+	private Locacao locacao;
+	 Cliente(int codigo, String nome){
 		this.codigo=codigo;
 		this.nome=nome;
 	}
 
+	public Locacao getLocacao() {
+		return locacao;
+	}
 
 	public int getCodigo() {
 		return codigo;
@@ -19,12 +24,15 @@ public abstract class Cliente implements Comparable<Cliente> {
 	public String getNome() {
 		return nome;
 	}
-	public ArrayList<Cliente> getClientes() {
-		return clientes;
-	}
+
 
 	public abstract double calculaDesconto(int quantidadeRobos);
 
 	@Override
 	public abstract int compareTo(Cliente o);
+
+	@Override
+	public String toString() {
+		return "\nCliente:\n" + "Código: " + codigo + "\nNome: " + nome + "\n";
+	}
 }
