@@ -1,5 +1,6 @@
 package aplicacao;
 
+import dados.Cliente;
 import dados.Locacao;
 import dados.Robo;
 import dados.Status;
@@ -29,11 +30,13 @@ public class CadastrarLocacao implements ActionListener {
     private Robos robos;
     private Locacoes locacoes;
     private ACMERobots acmeRobots;
+    private EscolhaCliente escolhaCliente;
 
     public CadastrarLocacao(ACMERobots acmeRobots, EscolhaCliente escolhaCliente) {
         this.acmeRobots = acmeRobots;
         this.locacoes = acmeRobots.getLocacoes();
         this.robos = acmeRobots.getRobos();
+        this.escolhaCliente=escolhaCliente;
 
         confirmarButton.addActionListener(this);
         mostrarDadosButton.addActionListener(this);
@@ -82,10 +85,11 @@ public class CadastrarLocacao implements ActionListener {
                 textArea1.append("Erro! Já existe uma locação com esse número.\n");
             } else {
                 Robo robo = selecionarRobo();
+                Cliente cliente = escolhaCliente.getClienteSelecionado();
                 if (robo != null) {
                     Status situacao = Status.CADASTRADA;
                     Locacao locacao = new Locacao(numero, situacao, dataIni, dataFim);
-                    locacoes.cadastrarLocacao(locacao, robo);
+                    locacoes.cadastrarLocacao(locacao, robo,cliente);
                     textArea1.append("Locação cadastrada com sucesso.\n");
                 } else {
                     textArea1.append("Erro! Nenhum robô selecionado.\n");

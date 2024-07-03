@@ -8,14 +8,17 @@ public class Locacao {
 	private Status situacao;
 	private Date dataInicio;
 	private int dataFim;
-	private ArrayList<Robo>robos = new ArrayList<>();
-	private Robo robo;
+	private ArrayList<Robo>robos;
+
 
 	public Locacao(int numero, Status situacao, Date dataInicio, int dataFim) {
 		this.numero = numero;
 		this.situacao = situacao;
 		this.dataInicio = dataInicio;
 		this.dataFim = dataFim;
+		this.robos=new ArrayList<>();
+
+
 	}
 
 	public int getNumero() {

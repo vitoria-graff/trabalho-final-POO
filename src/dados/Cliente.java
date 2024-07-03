@@ -33,6 +33,6 @@ public abstract class Cliente implements Comparable<Cliente> {
 
 	@Override
 	public String toString() {
-		return "\nCliente:\n" + "Código: " + codigo + "\nNome: " + nome + "\n";
+		return "\nCliente:\n" + "Código: " + codigo + "\nNome: " + nome;
 	}
 }
