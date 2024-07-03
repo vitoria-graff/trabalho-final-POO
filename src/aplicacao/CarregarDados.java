@@ -5,9 +5,7 @@ import dados.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -159,6 +157,39 @@ public class CarregarDados {
             dadosCadastrados.append(locacao.toString()).append("\n");
         }
         AreaDados.setText(dadosCadastrados.toString());
+    }
+    public void salvarTodosOsDados(String nomeArquivo) {
+        try (BufferedWriter escritorEvento = new BufferedWriter(new FileWriter(nomeArquivo + "-EVENTOS.CSV"));
+             BufferedWriter escritorEquipe = new BufferedWriter(new FileWriter(nomeArquivo + "-EQUIPES.CSV"));
+             BufferedWriter escritorEquipamento = new BufferedWriter(new FileWriter(nomeArquivo + "-EQUIPAMENTOS.CSV"));
+             BufferedWriter escritorAtendimento = new BufferedWriter(new FileWriter(nomeArquivo + "-ATENDIMENTOS.CSV"))) {
+
+            for (Evento evento : appEvento.getEventos()) {
+                escritorEvento.write(evento.toString());
+                escritorEvento.newLine();
+            }
+
+            for (Equipe equipe : appEquipe.getEquipes()) {
+                escritorEquipe.write(equipe.toString());
+                escritorEquipe.newLine();
+            }
+
+            for (Equipamento equipamento : appEquipamento.getEquipamentos()) {
+                escritorEquipamento.write(equipamento.toString());
+                escritorEquipamento.newLine();
+            }
+
+            for (Atendimento atendimento : appAtendimento.getAtendimentosPendentes()) {
+                escritorAtendimento.write(atendimento.toString());
+                escritorAtendimento.newLine();
+            }
+
+            JOptionPane.showMessageDialog(null, "Dados salvos com sucesso.");
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao salvar dados. Verifique o nome do arquivo e tente novamente.");
+            ex.printStackTrace();
+        }
     }
     public JPanel getPanel() {
         return painel;
