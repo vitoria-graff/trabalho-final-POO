@@ -12,10 +12,10 @@ public class ACMERobots extends JFrame implements ActionListener {
     private JPanel panel1;
     private JButton cadastrarRoboButton;
     private JButton button3;
-    private JButton button4;
+    private JButton salvarDadosButton;
     private JButton cadastrarClienteButton;
     private JButton cadastrarLocacaoButton;
-    private JButton button7;
+    private JButton carregarDadosButton;
     private JPanel panel;
     private JButton finalizarButton;
     private ImageIcon imageIcon;
@@ -26,6 +26,7 @@ public class ACMERobots extends JFrame implements ActionListener {
     private CadastrarRobo cadastrarRobo;
     private CadastrarLocacao cadastrarLocacao;
     private escolhaCliente escolhaCliente;
+    private CarregarDados carregarDados;
 
     public ACMERobots(Clientela clientela, Locacoes locacoes, Robos robos){
         super();
@@ -37,6 +38,7 @@ public class ACMERobots extends JFrame implements ActionListener {
         this.cadastrarCliente = new CadastrarCliente(this);
         this.cadastrarLocacao = new CadastrarLocacao(this, escolhaCliente);
         this.escolhaCliente = new escolhaCliente(this);
+        this.carregarDados = new CarregarDados(this);
         this.setContentPane(panel);
         this.setSize(800, 600);
         this.setTitle("ACMERobots");
@@ -69,6 +71,12 @@ public class ACMERobots extends JFrame implements ActionListener {
                 System.exit(0);
             }
         });
+        carregarDadosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mudarPainel(4);
+            }
+        });
     }
 
     public void mudarPainel(int painel) {
@@ -88,8 +96,9 @@ public class ACMERobots extends JFrame implements ActionListener {
                 this.setSize(800, 400);
                 break;
 
-
-
+            case 4:
+                this.setContentPane(carregarDados.getPanel());
+                this.setSize(800, 400);
     }}
 
     public JPanel getPanel() {
