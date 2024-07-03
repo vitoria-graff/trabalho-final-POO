@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class EscolhaCliente {
+public class escolhaCliente {
     private JPanel panel;
     private JButton voltarButton;
     private JButton continuarButton;
@@ -20,7 +20,7 @@ public class EscolhaCliente {
     private Cliente cliente;
     private CadastrarLocacao cadastrarLocacao;
 
-    public EscolhaCliente(ACMERobots acmeRobots){
+    public escolhaCliente( ACMERobots acmeRobots){
         this.acmeRobots=acmeRobots;
         this.clientela= acmeRobots.getClientela();
         this.cadastrarLocacao= new CadastrarLocacao(acmeRobots, this);
