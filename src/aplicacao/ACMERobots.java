@@ -1,5 +1,8 @@
 package aplicacao;
 
+import dados.Locacao;
+import dados.Robo;
+import dados.Status;
 import dados.colecoes.Clientela;
 import dados.colecoes.Locacoes;
 import dados.colecoes.Robos;
@@ -7,6 +10,7 @@ import dados.colecoes.Robos;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class ACMERobots extends JFrame implements ActionListener {
     private JPanel panel1;
@@ -15,7 +19,11 @@ public class ACMERobots extends JFrame implements ActionListener {
     private JButton salvarDadosButton;
     private JButton cadastrarClienteButton;
     private JButton cadastrarLocacaoButton;
+<<<<<<< HEAD
     private JButton carregarDadosButton;
+=======
+    private JButton processarLocaçõesButton;
+>>>>>>> b00c55f8730b2ece36e66ff6c7322c1daeeecb76
     private JPanel panel;
     private JButton finalizarButton;
     private ImageIcon imageIcon;
@@ -25,8 +33,12 @@ public class ACMERobots extends JFrame implements ActionListener {
     private CadastrarCliente cadastrarCliente;
     private CadastrarRobo cadastrarRobo;
     private CadastrarLocacao cadastrarLocacao;
+<<<<<<< HEAD
     private escolhaCliente escolhaCliente;
     private CarregarDados carregarDados;
+=======
+    private EscolhaCliente escolhaCliente;
+>>>>>>> b00c55f8730b2ece36e66ff6c7322c1daeeecb76
 
     public ACMERobots(Clientela clientela, Locacoes locacoes, Robos robos){
         super();
@@ -37,8 +49,12 @@ public class ACMERobots extends JFrame implements ActionListener {
         this.cadastrarRobo = new CadastrarRobo(this);
         this.cadastrarCliente = new CadastrarCliente(this);
         this.cadastrarLocacao = new CadastrarLocacao(this, escolhaCliente);
+<<<<<<< HEAD
         this.escolhaCliente = new escolhaCliente(this);
         this.carregarDados = new CarregarDados(this);
+=======
+        this.escolhaCliente = new EscolhaCliente(this);
+>>>>>>> b00c55f8730b2ece36e66ff6c7322c1daeeecb76
         this.setContentPane(panel);
         this.setSize(800, 600);
         this.setTitle("ACMERobots");
@@ -63,6 +79,12 @@ public class ACMERobots extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mudarPainel(3);
+            }
+        });
+        processarLocaçõesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                processarLocacoes();
             }
         });
         finalizarButton.addActionListener(new ActionListener() {
@@ -117,12 +139,45 @@ public class ACMERobots extends JFrame implements ActionListener {
         return locacoes;
     }
 
-    public aplicacao.escolhaCliente getEscolhaCliente() {
+    public EscolhaCliente getEscolhaCliente() {
         return escolhaCliente;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+    }
+    private void processarLocacoes() {
+        if (locacoes.getLocacoes().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Nenhuma locação pendente para processar.", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        ArrayList<Locacao> pendentes = locacoes.getLocacoesPendentes();
+
+        for (Locacao locacao : pendentes) {
+            ArrayList<Robo> robosParaLocar = locacao.getRobos();
+            boolean todosDisponiveis = true;
+
+            for (Robo robo : robosParaLocar) {
+                if (!robo.estaDisponivel()) {
+                    todosDisponiveis = false;
+                    break;
+                }
+            }
+
+            if (todosDisponiveis) {
+                for (Robo robo : robosParaLocar) {
+                    robo.setDisponivel(false);
+                }
+                locacao.setSituacao(Status.EXECUTANDO);
+            } else {
+                for (Robo robo : robosParaLocar) {
+                    robo.setDisponivel(true);
+                }
+                locacao.setSituacao(Status.CADASTRADA);
+                JOptionPane.showMessageDialog(this, "A locação " + locacao.getNumero() + " não pôde ser processada. Robô(s) não disponível(eis).", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 }

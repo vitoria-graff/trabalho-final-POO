@@ -4,11 +4,13 @@ public abstract class Robo implements Comparable<Robo> {
 	private int id;
 	private String modelo;
 	private double valorDiario;
+	private boolean disponivel;
 
 	public Robo(int id, String modelo, double valorDiario) {
 		this.id = id;
 		this.modelo = modelo;
 		this.valorDiario = valorDiario;
+		this.disponivel=true;
 	}
 
 	public int getId() {
@@ -21,6 +23,13 @@ public abstract class Robo implements Comparable<Robo> {
 
 	public double getValorDiario() {
 		return valorDiario;
+	}
+	public boolean estaDisponivel() {
+		return disponivel;
+	}
+
+	public void setDisponivel(boolean disponivel) {
+		this.disponivel = disponivel;
 	}
 
 	public abstract double calculaLocacao(int dias);
