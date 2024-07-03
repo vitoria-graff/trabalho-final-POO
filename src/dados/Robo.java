@@ -34,5 +34,10 @@ public abstract class Robo implements Comparable<Robo> {
 	public abstract double calculaLocacao(int dias);
 
 	@Override
+	public String toString() {
+		return "\nRobô:\n" + "ID: " + id + "\nModelo: " + modelo+ "\nDiária: " + valorDiario;
+	}
+
+	@Override
 	public abstract int compareTo(Robo o);
 }

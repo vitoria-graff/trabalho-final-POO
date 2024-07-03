@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 public class RelatorioGeral extends JFrame implements ActionListener {
     private JPanel panel;
     private JTextArea textArea;
-    private JButton button1;
+    private JButton voltarButton;
     private JButton mostrarDadosButton;
     private ACMERobots acmeRobots;
     private Clientela clientela;
@@ -89,5 +89,10 @@ public class RelatorioGeral extends JFrame implements ActionListener {
         if (e.getSource()==mostrarDadosButton){
             exibirRelatorio();
         }
+        else if (e.getSource()==voltarButton){
+            acmeRobots.setSize(800, 600);
+            acmeRobots.setContentPane(acmeRobots.getPanel());
+        }
+
     }
 }

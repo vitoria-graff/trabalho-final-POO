@@ -7,11 +7,12 @@ public class Locacao {
 	private int numero;
 	private Status situacao;
 	private Date dataInicio;
-	private int dataFim;
+	private Date  dataFim;
+
 	private ArrayList<Robo>robos;
 
 
-	public Locacao(int numero, Status situacao, Date dataInicio, int dataFim) {
+	public Locacao(int numero, Status situacao, Date dataInicio, Date dataFim) {
 		this.numero = numero;
 		this.situacao = situacao;
 		this.dataInicio = dataInicio;
@@ -33,7 +34,7 @@ public class Locacao {
 		return dataInicio;
 	}
 
-	public int getDataFim() {
+	public Date getDataFim() {
 		return dataFim;
 	}
 
@@ -49,4 +50,8 @@ public class Locacao {
 		return 0;
 	}
 
+	@Override
+	public String toString() {
+		return "\nLocação:\n" + "Número: " + numero + "\nSituação: " + situacao+ "\nData inicial: " + dataInicio+ "\nData final: " + dataFim;
+	}
 }

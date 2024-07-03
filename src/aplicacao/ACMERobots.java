@@ -1,6 +1,5 @@
 package aplicacao;
 
-import dados.Cliente;
 import dados.Locacao;
 import dados.Robo;
 import dados.Status;
@@ -9,22 +8,22 @@ import dados.colecoes.Locacoes;
 import dados.colecoes.Robos;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ACMERobots extends JFrame implements ActionListener {
     private JPanel panel1;
     private JButton cadastrarRoboButton;
-    private JButton button3;
+    private JButton consultarLocaçõesButton;
     private JButton cadastrarClienteButton;
     private JButton cadastrarLocacaoButton;
     private JButton processarLocaçõesButton;
     private JPanel panel;
     private JButton finalizarButton;
     private JButton relatoriogeralbutton;
+    private JButton alterarSituaçãoButton;
+    private JButton carregarDadosButton;
     private ImageIcon imageIcon;
     private Clientela clientela;
     private Locacoes locacoes;
@@ -34,6 +33,8 @@ public class ACMERobots extends JFrame implements ActionListener {
     private CadastrarLocacao cadastrarLocacao;
     private EscolhaCliente escolhaCliente;
     private RelatorioGeral relatorioGeral;
+    private MostrarLocacoes mostrarLocacoes;
+    private CarregarDados carregarDados;
 
     public ACMERobots(Clientela clientela, Locacoes locacoes, Robos robos){
         super();
@@ -46,6 +47,8 @@ public class ACMERobots extends JFrame implements ActionListener {
         this.cadastrarLocacao = new CadastrarLocacao(this, escolhaCliente);
         this.escolhaCliente = new EscolhaCliente(this);
         this.relatorioGeral=new RelatorioGeral(this);
+        this.mostrarLocacoes=new MostrarLocacoes(this);
+        this.carregarDados=new CarregarDados(this);
         this.setContentPane(panel);
         this.setSize(800, 600);
         this.setTitle("ACMERobots");
@@ -84,6 +87,24 @@ public class ACMERobots extends JFrame implements ActionListener {
                 mudarPainel(4);
             }
         });
+        consultarLocaçõesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mudarPainel(5);
+            }
+        });
+        alterarSituaçãoButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                alterarSituacao();
+            }
+        });
+        carregarDadosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mudarPainel(6);
+            }
+        });
         finalizarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -111,6 +132,16 @@ public class ACMERobots extends JFrame implements ActionListener {
 
             case 4:
                 this.setContentPane(relatorioGeral.getPanel());
+                this.setSize(800,400);
+                break;
+
+            case 5:
+                this.setContentPane(mostrarLocacoes.getPanel());
+                this.setSize(800,400);
+                break;
+
+            case 6:
+                this.setContentPane(carregarDados.getPanel());
                 this.setSize(800,400);
                 break;
 
@@ -173,5 +204,50 @@ public class ACMERobots extends JFrame implements ActionListener {
             }
         }
     }
+        private void alterarSituacao() {
+            String numeroLocacaoStr = JOptionPane.showInputDialog("Digite o número da locação:");
+            if (numeroLocacaoStr == null || numeroLocacaoStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Número da locação não pode ser vazio.");
+                return;
+            }
+
+            int numeroLocacao;
+            try {
+                numeroLocacao = Integer.parseInt(numeroLocacaoStr);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Número da locação inválido.");
+                return;
+            }
+
+            Locacao locacao = null;
+            for (Locacao l : locacoes.getLocacoes()) {
+                if (l.getNumero() == numeroLocacao) {
+                    locacao = l;
+                    break;
+                }
+            }
+
+            if (locacao == null) {
+                JOptionPane.showMessageDialog(null, "Nenhuma locação encontrada com o número indicado.");
+                return;
+            }
+
+            if (locacao.getSituacao() == Status.FINALIZADA || locacao.getSituacao() == Status.CANCELADA) {
+                JOptionPane.showMessageDialog(null, "A locação está FINALIZADA ou CANCELADA e não pode ser alterada.");
+                return;
+            }
+
+            JComboBox<Status> statusComboBox = new JComboBox<>(Status.values());
+            statusComboBox.setSelectedItem(locacao.getSituacao());
+
+            int result = JOptionPane.showConfirmDialog(null, statusComboBox, "Selecione a nova situação", JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                Status novaSituacao = (Status) statusComboBox.getSelectedItem();
+                locacao.setSituacao(novaSituacao);
+                JOptionPane.showMessageDialog(null, "Situação da locação alterada com sucesso.");
+            }
+    }
+
 
 }
+

@@ -79,7 +79,7 @@ public class CadastrarLocacao implements ActionListener {
         try {
             int numero = Integer.parseInt(textNumero.getText().trim());
             Date dataIni = new SimpleDateFormat("dd/MM/yyyy").parse(textDataIni.getText().trim());
-            int dataFim = Integer.parseInt(textDataFim.getText().trim());
+            Date dataFim = new SimpleDateFormat("dd/MM/yyyy").parse(textDataFim.getText().trim());
 
             if (locacoes.existeLocacao(numero)) {
                 textArea1.append("Erro! Já existe uma locação com esse número.\n");
