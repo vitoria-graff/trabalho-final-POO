@@ -1,6 +1,5 @@
 package dados;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Locacao {
@@ -8,8 +7,6 @@ public class Locacao {
 	private Status situacao;
 	private Date dataInicio;
 	private int dataFim;
-	private ArrayList<Robo>robos = new ArrayList<>();
-	private Robo robo;
 
 	public Locacao(int numero, Status situacao, Date dataInicio, int dataFim) {
 		this.numero = numero;
@@ -32,14 +29,6 @@ public class Locacao {
 
 	public int getDataFim() {
 		return dataFim;
-	}
-
-	public void setSituacao(Status situacao) {
-		this.situacao = situacao;
-	}
-
-	public ArrayList<Robo> getRobos() {
-		return robos;
 	}
 
 	public double calculaValorFinal() {
