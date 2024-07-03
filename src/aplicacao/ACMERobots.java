@@ -10,6 +10,7 @@ import dados.colecoes.Robos;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ACMERobots extends JFrame implements ActionListener {
@@ -24,6 +25,7 @@ public class ACMERobots extends JFrame implements ActionListener {
     private JButton relatoriogeralbutton;
     private JButton alterarSituaçãoButton;
     private JButton carregarDadosButton;
+    private JButton salvarDadosButton;
     private ImageIcon imageIcon;
     private Clientela clientela;
     private Locacoes locacoes;
@@ -103,6 +105,16 @@ public class ACMERobots extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mudarPainel(6);
+            }
+        });
+        salvarDadosButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    carregarDados.salvarTodosOsDados("Exemplo");
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
         finalizarButton.addActionListener(new ActionListener() {

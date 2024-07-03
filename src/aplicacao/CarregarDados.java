@@ -1,6 +1,9 @@
 package aplicacao;
 
 import dados.*;
+import dados.colecoes.Clientela;
+import dados.colecoes.Locacoes;
+import dados.colecoes.Robos;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,11 +20,16 @@ public class CarregarDados {
     private JButton botaoVoltar;
     private JTextArea AreaDados;
     private ACMERobots acmeRobots;
+    private Clientela clientela;
+    private Robos roboslist;
+    private Locacoes locacoeslist;
 
     public CarregarDados(ACMERobots acmeRobots) {
         super();
         this.acmeRobots = acmeRobots;
-
+        this.clientela=acmeRobots.getClientela();
+        this.locacoeslist=acmeRobots.getLocacoes();
+        this.roboslist=acmeRobots.getRobos();
 
         botaoConfirmar.addActionListener(new ActionListener() {
             @Override
@@ -158,32 +166,23 @@ public class CarregarDados {
         }
         AreaDados.setText(dadosCadastrados.toString());
     }
-    public void salvarTodosOsDados(String nomeArquivo) {
-        try (BufferedWriter escritorEvento = new BufferedWriter(new FileWriter(nomeArquivo + "-EVENTOS.CSV"));
-             BufferedWriter escritorEquipe = new BufferedWriter(new FileWriter(nomeArquivo + "-EQUIPES.CSV"));
-             BufferedWriter escritorEquipamento = new BufferedWriter(new FileWriter(nomeArquivo + "-EQUIPAMENTOS.CSV"));
-             BufferedWriter escritorAtendimento = new BufferedWriter(new FileWriter(nomeArquivo + "-ATENDIMENTOS.CSV"))) {
-
-            for (Evento evento : appEvento.getEventos()) {
-                escritorEvento.write(evento.toString());
-                escritorEvento.newLine();
+    public void salvarTodosOsDados(String nomeArquivo) throws IOException {
+        try {
+            BufferedWriter escritorRobos = new BufferedWriter(new FileWriter(nomeArquivo + "-ROBOS.CSV"));
+             BufferedWriter escritorClientes= new BufferedWriter(new FileWriter(nomeArquivo + "-CLIENTES.CSV"));
+             BufferedWriter escritorLocacoes = new BufferedWriter(new FileWriter(nomeArquivo + "-LOCACOES.CSV"));
+            for(Robo r : roboslist.getRobos()) {
+                escritorRobos.write(r.toString());
+                escritorRobos.newLine();
             }
-
-            for (Equipe equipe : appEquipe.getEquipes()) {
-                escritorEquipe.write(equipe.toString());
-                escritorEquipe.newLine();
+            for (Cliente c : clientela.getClientes()) {
+                escritorClientes.write(c.toString());
+                escritorClientes.newLine();
             }
-
-            for (Equipamento equipamento : appEquipamento.getEquipamentos()) {
-                escritorEquipamento.write(equipamento.toString());
-                escritorEquipamento.newLine();
+            for (Locacao l : locacoeslist.getLocacoes()) {
+                escritorLocacoes.write(l.toString());
+                escritorLocacoes.newLine();
             }
-
-            for (Atendimento atendimento : appAtendimento.getAtendimentosPendentes()) {
-                escritorAtendimento.write(atendimento.toString());
-                escritorAtendimento.newLine();
-            }
-
             JOptionPane.showMessageDialog(null, "Dados salvos com sucesso.");
 
         } catch (IOException ex) {
@@ -194,4 +193,4 @@ public class CarregarDados {
     public JPanel getPanel() {
         return painel;
     }
-}
+ }
