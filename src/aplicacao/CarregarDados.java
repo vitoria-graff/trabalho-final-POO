@@ -55,9 +55,9 @@ public class CarregarDados {
     private void carregarClientes(String arquivoClientes) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivoClientes))) {
             String linha;
+            reader.readLine();
             while ((linha = reader.readLine()) != null) {
                 String[] dados = linha.split(";");
-
                 int codigo = Integer.parseInt(dados[0]);
                 String nome = dados[1];
                 int tipo = Integer.parseInt(dados[2]);
@@ -71,29 +71,28 @@ public class CarregarDados {
             }
         }
     }
-
     private void carregarRobos(String arquivoRobos) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivoRobos))) {
             String linha;
+            reader.readLine();
             while ((linha = reader.readLine()) != null) {
                 String[] dados = linha.split(";");
-
                 int id = Integer.parseInt(dados[0]);
                 String modelo = dados[1];
                 int tipo = Integer.parseInt(dados[2]);
-                double valorDiario = Double.parseDouble(dados[3]);
+                double valorDiario = 0;
                 switch (tipo) {
                     case 1:
-                        int nivel = Integer.parseInt(dados[4]);
+                        int nivel = Integer.parseInt(dados[3]);
                         acmeRobots.getRobos().cadastrarRobo(new Domestico(id, modelo, valorDiario, nivel));
                         break;
                     case 2:
-                        String setor = dados[4];
+                        String setor = dados[3];
                         acmeRobots.getRobos().cadastrarRobo(new Industrial(id, modelo, valorDiario, setor));
                         break;
                     case 3:
-                        double area = Double.parseDouble(dados[4]);
-                        String uso = dados[5];
+                        double area = Double.parseDouble(dados[3]);
+                        String uso = dados[4];
                         acmeRobots.getRobos().cadastrarRobo(new Agricola(id, modelo, valorDiario, area, uso));
                         break;
                     default:
@@ -102,10 +101,10 @@ public class CarregarDados {
             }
         }
     }
-
     private void carregarLocacoes(String arquivoLocacoes) throws IOException, ParseException {
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivoLocacoes))) {
             String linha;
+            reader.readLine();
             while ((linha = reader.readLine()) != null) {
                 String[] dados = linha.split(";");
 
@@ -130,7 +129,6 @@ public class CarregarDados {
             }
         }
     }
-
     public void mostrarDadosCadastrados() {
         StringBuilder dadosCadastrados = new StringBuilder();
         dadosCadastrados.append("===== Clientes Cadastrados =====\n");
@@ -162,7 +160,6 @@ public class CarregarDados {
         }
         AreaDados.setText(dadosCadastrados.toString());
     }
-
     public JPanel getPanel() {
         return painel;
     }
