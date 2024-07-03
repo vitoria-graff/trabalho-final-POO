@@ -38,5 +38,13 @@ public class Robos {
     public ArrayList<Robo> getRobos() {
         return robos;
     }
+    public Robo getRoboById(int id) {
+        for (Robo robo : robos) {
+            if (robo.getId() == id) {
+                return robo;
+            }
+        }
+        return null;
+    }
 
 }

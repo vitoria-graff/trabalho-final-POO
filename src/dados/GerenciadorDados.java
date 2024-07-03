@@ -43,9 +43,12 @@ public class GerenciadorDados {
                 String dataInicio = sc.next();
                 String dataFim = sc.next();
                 String codigo = sc.next();
-                String idRobos = sc.next();
+                String idRobo = sc.next();
+                Robo robo = robos.getRoboById(Integer.parseInt(idRobo));
+                Cliente cliente = clientela.getClienteByCodigo(Integer.parseInt(codigo));
+
                 Locacao locacao = new Locacao(Integer.parseInt(numero), Status.valueOf(situacao), Date.valueOf(dataInicio), Integer.parseInt(dataFim));
-                locacoes.cadastrarLocacao(locacao);
+                locacoes.cadastrarLocacao(locacao,robo,cliente);
 
             }
         } catch (IOException e){

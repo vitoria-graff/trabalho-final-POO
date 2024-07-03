@@ -32,5 +32,13 @@ public class Clientela {
     public ArrayList<Cliente> getClientes() {
         return clientes;
     }
+    public Cliente getClienteByCodigo(int codigo) {
+        for (Cliente cliente : clientes) {
+            if (cliente.getCodigo() == codigo) {
+                return cliente;
+            }
+        }
+        return null;
+    }
 
 }
