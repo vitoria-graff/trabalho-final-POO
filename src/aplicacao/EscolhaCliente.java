@@ -25,7 +25,6 @@ public class EscolhaCliente {
         this.clientela= acmeRobots.getClientela();
         this.cadastrarLocacao= new CadastrarLocacao(acmeRobots, this);
 
-        System.out.println("Número de clientes carregados: " + clientela.getClientes().size());
         atualizarListaClientes();
 
         continuarButton.addActionListener(new ActionListener() {
