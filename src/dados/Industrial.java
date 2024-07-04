@@ -18,6 +18,8 @@ public class Industrial extends Robo {
 		return 0;
 	}
 
+
+
 	@Override
 	public int compareTo(Robo o) {
 		return Integer.compare(this.getId(), o.getId());

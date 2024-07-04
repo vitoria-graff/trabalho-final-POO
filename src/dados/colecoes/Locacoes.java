@@ -62,4 +62,5 @@ public class Locacoes {
         }
         return pendentes;
     }
+
 }

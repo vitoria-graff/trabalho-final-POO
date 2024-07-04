@@ -117,14 +117,7 @@ public class CadastrarLocacao implements ActionListener {
             ArrayList<Locacao> locacoesOrdenadas = new ArrayList<>(locacoes.getLocacoes());
             locacoesOrdenadas.sort(null);
             for (Locacao locacao : locacoesOrdenadas) {
-                Robo robo = locacoes.getRoboByLocacao(locacao.getNumero());
-                textArea1.append("Número: " + locacao.getNumero() + "\n");
-                textArea1.append("Situação: " + locacao.getSituacao() + "\n");
-                textArea1.append("Data Início: " + new SimpleDateFormat("dd/MM/yyyy").format(locacao.getDataInicio()) + "\n");
-                textArea1.append("Data Fim: " + locacao.getDataFim() + "\n");
-                if (robo != null) {
-                    textArea1.append("Robô: " + robo.getModelo() + "-" + robo.getId() +"\n");
-                }
+                textArea1.append(locacao.toString() + "\n");
                 textArea1.append("--------------------------\n");
             }
         }

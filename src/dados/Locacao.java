@@ -1,5 +1,8 @@
 package dados;
 
+import dados.colecoes.Locacoes;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -8,6 +11,8 @@ public class Locacao {
 	private Status situacao;
 	private Date dataInicio;
 	private Date  dataFim;
+	private Robo robo;
+	private Cliente cliente;
 
 	private ArrayList<Robo>robos;
 
@@ -50,8 +55,28 @@ public class Locacao {
 		return 0;
 	}
 
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public void setRobo(Robo robo) {
+		this.robo = robo;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
 	@Override
 	public String toString() {
-		return "\nLocação:\n" + "Número: " + numero + "\nSituação: " + situacao+ "\nData inicial: " + dataInicio+ "\nData final: " + dataFim;
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		StringBuilder sb = new StringBuilder();
+		sb.append("Número: ").append(numero).append("\n")
+				.append("Situação: ").append(situacao).append("\n")
+				.append("Data Início: ").append(dateFormat.format(dataInicio)).append("\n")
+				.append("Data Fim: ").append(dateFormat.format(dataFim)).append("\n")
+				.append("Cliente: ").append(cliente != null ? cliente.getCodigo() : "Nenhum cliente associado").append("\n")
+				.append("Robô: ").append(robo != null ? robo.getId() : "Nenhum robô associado").append("\n");
+		return sb.toString();
 	}
 }

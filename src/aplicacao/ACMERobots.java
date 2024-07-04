@@ -10,7 +10,6 @@ import dados.colecoes.Robos;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class ACMERobots extends JFrame implements ActionListener {
@@ -26,6 +25,7 @@ public class ACMERobots extends JFrame implements ActionListener {
     private JButton alterarSituaçãoButton;
     private JButton carregarDadosButton;
     private JButton salvarDadosButton;
+    private JButton carregarDadosButton1;
     private ImageIcon imageIcon;
     private Clientela clientela;
     private Locacoes locacoes;
@@ -36,6 +36,8 @@ public class ACMERobots extends JFrame implements ActionListener {
     private EscolhaCliente escolhaCliente;
     private RelatorioGeral relatorioGeral;
     private MostrarLocacoes mostrarLocacoes;
+    private CarregarDadosIniciais carregarDadosIniciais;
+    private SalvarDados salvarDados;
     private CarregarDados carregarDados;
 
     public ACMERobots(Clientela clientela, Locacoes locacoes, Robos robos){
@@ -50,7 +52,9 @@ public class ACMERobots extends JFrame implements ActionListener {
         this.escolhaCliente = new EscolhaCliente(this);
         this.relatorioGeral=new RelatorioGeral(this);
         this.mostrarLocacoes=new MostrarLocacoes(this);
-        this.carregarDados=new CarregarDados(this);
+        this.carregarDadosIniciais =new CarregarDadosIniciais(this);
+        this.salvarDados=new SalvarDados(this);
+        this.carregarDados= new CarregarDados(this);
         this.setContentPane(panel);
         this.setSize(800, 600);
         this.setTitle("ACMERobots");
@@ -110,11 +114,13 @@ public class ACMERobots extends JFrame implements ActionListener {
         salvarDadosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    carregarDados.salvarTodosOsDados("Exemplo");
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                mudarPainel(7);
+            }
+        });
+        carregarDadosButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mudarPainel(8);
             }
         });
         finalizarButton.addActionListener(new ActionListener() {
@@ -153,9 +159,20 @@ public class ACMERobots extends JFrame implements ActionListener {
                 break;
 
             case 6:
-                this.setContentPane(carregarDados.getPanel());
+                this.setContentPane(carregarDadosIniciais.getPanel());
                 this.setSize(800,400);
                 break;
+
+            case 7:
+                this.setContentPane(salvarDados.getPanel());
+                this.setSize(800,400);
+               break;
+
+            case 8:
+                this.setContentPane(carregarDados.getPainel());
+                this.setSize(800,400);
+                break;
+
 
     }}
 

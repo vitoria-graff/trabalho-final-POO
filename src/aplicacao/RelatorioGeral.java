@@ -25,6 +25,7 @@ public class RelatorioGeral extends JFrame implements ActionListener {
         this.locacoes=acmeRobots.getLocacoes();
 
         mostrarDadosButton.addActionListener(this);
+        voltarButton.addActionListener(this);
     }
 
     private void exibirRelatorio() {

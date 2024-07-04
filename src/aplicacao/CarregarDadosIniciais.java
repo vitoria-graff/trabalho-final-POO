@@ -8,26 +8,23 @@ import dados.colecoes.Robos;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CarregarDados {
-    private ACMERobots acmeRobots;
-    private Clientela clientela;
-    private Robos roboslist;
-    private Locacoes locacoeslist;
-    private JPanel panel;
+public class CarregarDadosIniciais {
     private JPanel painel;
     private JTextField nomeArquivo;
     private JButton botaoConfirmar;
     private JButton botaoVoltar;
+    private JTextArea AreaDados;
+    private ACMERobots acmeRobots;
+    private Clientela clientela;
+    private Robos roboslist;
+    private Locacoes locacoeslist;
 
-
-    public CarregarDados(ACMERobots acmeRobots) {
+    public CarregarDadosIniciais(ACMERobots acmeRobots) {
         super();
         this.acmeRobots = acmeRobots;
         this.clientela=acmeRobots.getClientela();
@@ -40,9 +37,10 @@ public class CarregarDados {
                 try {
                     String diretorioArquivos = nomeArquivo.getText().trim();
                     carregarDadosIniciais(diretorioArquivos);
+                    mostrarDadosCadastrados();
                     JOptionPane.showMessageDialog(null, "Dados cadastrados com sucesso!");
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Erro ao cadastrar dados");
+                    AreaDados.append("Erro ao carregar dados: ");
                 }
             }
         });
@@ -151,7 +149,48 @@ public class CarregarDados {
             JOptionPane.showMessageDialog(null, "Erro ao converter datas: " + ex.getMessage());
         }
     }
-    public JPanel getPainel(){
+    public void mostrarDadosCadastrados() {
+        StringBuilder dadosCadastrados = new StringBuilder();
+        dadosCadastrados.append("===== Clientes Cadastrados =====\n");
+        for (Cliente cliente : clientela.getClientes()) {
+            dadosCadastrados.append(cliente.toString()).append( "\n");
+            if (cliente instanceof Individual) {
+                Individual individual = (Individual) cliente;
+                dadosCadastrados.append("Tipo: Individual\n");
+                dadosCadastrados.append("CPF: " + individual.getCpf() + "\n");
+            } else if (cliente instanceof Empresarial) {
+                Empresarial empresarial = (Empresarial) cliente;
+                dadosCadastrados.append("Tipo: Empresarial\n");
+                dadosCadastrados.append("Ano de fundação: " + empresarial.getAno() + "\n");
+            }
+        }
+        dadosCadastrados.append("\n===== Robôs Cadastrados =====\n");
+        for (Robo robo : acmeRobots.getRobos().getRobos()) {
+            dadosCadastrados.append(robo.toString()).append("\n");
+            if (robo instanceof Domestico) {
+                Domestico domestico = (Domestico) robo;
+                dadosCadastrados.append("Tipo: Doméstico\n");
+                dadosCadastrados.append("Nível: ").append(domestico.getNivel()).append("\n");
+            } else if (robo instanceof Industrial) {
+                Industrial industrial = (Industrial) robo;
+                dadosCadastrados.append("Tipo: Industrial\n");
+                dadosCadastrados.append("Setor: ").append(industrial.getSetor()).append("\n");
+            } else if (robo instanceof Agricola) {
+                Agricola agricola = (Agricola) robo;
+                dadosCadastrados.append("Tipo: Agrícola\n");
+                dadosCadastrados.append("Área: ").append(agricola.getArea()).append("\n");
+                dadosCadastrados.append("Uso: ").append(agricola.getUso()).append("\n");
+            }
+            dadosCadastrados.append("--------------------------\n");
+        }
+        dadosCadastrados.append("\n===== Locações Cadastradas =====\n");
+        for (Locacao locacao : acmeRobots.getLocacoes().getLocacoesPendentes()) {
+            dadosCadastrados.append(locacao.toString()).append("\n");
+        }
+        AreaDados.setText(dadosCadastrados.toString());
+    }
+
+    public JPanel getPanel() {
         return painel;
     }
-}
+ }
