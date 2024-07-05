@@ -21,7 +21,9 @@ public class Agricola extends Robo {
 
 	@Override
 	public double calculaLocacao(int dias) {
-		return 0;
+		double locacaoDiaria = 10 * (area * area);
+		double valorTotal = dias * locacaoDiaria;
+		return valorTotal;
 	}
 
 

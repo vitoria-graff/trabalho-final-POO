@@ -52,7 +52,13 @@ public class Locacao {
 	}
 
 	public double calculaValorFinal() {
-		return 0;
+		long diasEmMilissegundos = 86400000L;
+		long diferencaDias = getDataFim().getTime() - getDataInicio().getTime();
+
+		long diasLong = diasEmMilissegundos / diferencaDias;
+
+		double valorFinal = robo.calculaLocacao((int) diasLong) * cliente.calculaDesconto(getRobos().size());
+		return valorFinal;
 	}
 
 	public void setCliente(Cliente cliente) {

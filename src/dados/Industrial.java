@@ -15,10 +15,10 @@ public class Industrial extends Robo {
 
 	@Override
 	public double calculaLocacao(int dias) {
-		return 0;
+		double locacaoDiaria = 90;
+		double valorTotal = dias * locacaoDiaria;
+		return valorTotal;
 	}
-
-
 
 	@Override
 	public int compareTo(Robo o) {

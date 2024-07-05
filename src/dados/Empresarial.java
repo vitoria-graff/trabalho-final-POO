@@ -15,7 +15,13 @@ public class Empresarial extends Cliente {
 
 	@Override
 	public double calculaDesconto(int quantidadeRobos) {
-		return 0;
+		double desconto = 0;
+		if(quantidadeRobos >= 2 && quantidadeRobos <= 9){
+			desconto = 3/100;
+		} if(quantidadeRobos >= 10){
+			desconto = 7/100;
+		}
+		return desconto;
 	}
 
 	@Override

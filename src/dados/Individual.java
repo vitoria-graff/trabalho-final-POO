@@ -15,7 +15,11 @@ public class Individual extends Cliente {
 
 	@Override
 	public double calculaDesconto(int quantidadeRobos) {
-		return 0;
+		double desconto = 0;
+		if(quantidadeRobos > 1){
+			desconto = 5/100;
+		}
+		return desconto;
 	}
 
     @Override

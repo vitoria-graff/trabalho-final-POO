@@ -15,7 +15,17 @@ public class Domestico extends Robo {
 
 	@Override
 	public double calculaLocacao(int dias) {
-		return 0;
+		double locacaoDiaria = 0.0;
+		if(getModelo().equals("1")){
+			locacaoDiaria = 10;
+		} else if(getModelo().equals("2")){
+			locacaoDiaria = 20;
+		} else if(getModelo().equals("3")){
+			locacaoDiaria = 50;
+		}
+
+		double valorTotal = dias * locacaoDiaria;
+		return valorTotal;
 	}
 
 
